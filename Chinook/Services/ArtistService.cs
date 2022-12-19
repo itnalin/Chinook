@@ -15,6 +15,11 @@ namespace Chinook.Services
             var dbContext = await DbFactory.CreateDbContextAsync();            
             return dbContext.Artists.ToList();
         }
+        public async Task<Artist?> GetArtists(long ArtistId)
+        {
+            var dbContext = await DbFactory.CreateDbContextAsync();
+            return dbContext.Artists.SingleOrDefault(a => a.ArtistId == ArtistId);
+        }
         public async Task<List<Artist>> GetArtists(string name)
         {
             var dbContext = await DbFactory.CreateDbContextAsync();

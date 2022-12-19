@@ -2,6 +2,7 @@
 @attribute [Authorize]
 
 @using Chinook.Models
+@using Chinook.Services;
 @using Microsoft.EntityFrameworkCore
 
 <PageTitle>Index</PageTitle>
@@ -14,6 +15,9 @@
 }
 else
 {
+    <div class="form-group mb-2">
+        <input type="text" id="SearchArtist" class="form-control" @onchange="@GetArtists" placeholder="Search artist by name">
+    </div>
     <table class="table table-striped table-hover table-sm">
         <thead>
             <tr>
@@ -36,23 +40,17 @@ else
 @code {
     private List<Artist> Artists;
     [Inject] IDbContextFactory<ChinookContext> DbFactory { get; set; }
+    [Inject] IArtistService artistService { get; set; }
 
-    protected override async Task OnInitializedAsync() {
-        await InvokeAsync(StateHasChanged);
-        Artists = await GetArtists();
-    }
-
-    public async Task<List<Artist>> GetArtists()
-    {   
-        var dbContext = await DbFactory.CreateDbContextAsync();
-        var users = dbContext.Users.Include(a => a.UserPlaylists).ToList();
-        
-        return dbContext.Artists.ToList();
-    }
-
-    public async Task<List<Album>> GetAlbumsForArtist(int artistId)
+    protected override async Task OnInitializedAsync()
     {
-        var dbContext = await DbFactory.CreateDbContextAsync();
-        return dbContext.Albums.Where(a => a.ArtistId == artistId).ToList();
+        await InvokeAsync(StateHasChanged);        
+        Artists = await artistService.GetArtists();
+
+    }
+
+    private async void GetArtists(ChangeEventArgs e)
+    {
+        Artists = await artistService.GetArtists(e.Value.ToString());
     }
 }
