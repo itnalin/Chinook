@@ -25,7 +25,7 @@
 
 9. NavMenu.razor page added private server code method to remove a playlist through the PlaylistService.
 
-10. Playlist "My favorite tracks" given as an example in the NavMenu is commented to show the automatic "My favorite tracks" playlist that is programatically created.
+10. Playlist "My favorite tracks" given as an example in the NavMenu is commented to show the automatic "My favorite tracks" playlist that is programmatically created.
 
 11. server code private methods GetArtists and GetAlbumsForArtist in Index.razor are moved to ArtistService. 
 
